@@ -1,5 +1,6 @@
 import Demo1 from './components/Demo1';
 import Template from "./components/Template";
+import ColGroup from "./components/ColGroup";
 
 // https://www.primefaces.org/primereact/showcase/showcase/demo/data/products-orders-small.json
 // https://www.primefaces.org/primereact/showcase/showcase/demo/data/products-small.json
@@ -13,7 +14,8 @@ function App() {
   return (
     <div >
         {false && <Demo1 />}
-        {true && <Template />}
+        {false && <Template />}
+        {true && <ColGroup />}
     </div>
   );
 }
