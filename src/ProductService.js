@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'https://www.primefaces.org/primereact/showcase/';
+export const url = 'https://www.primefaces.org/primereact/showcase/';
 
 class ProductService {
     

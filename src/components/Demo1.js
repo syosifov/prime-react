@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import ProductService from './ProductService';
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+
+import ProductService from '../ProductService';
 
 
 function Demo1() {
