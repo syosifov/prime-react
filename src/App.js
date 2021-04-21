@@ -1,6 +1,8 @@
 import Demo1 from './components/Demo1';
 import Template from "./components/Template";
 import ColGroup from "./components/ColGroup";
+import Paginator from "./components/Paginator";
+import PageControlled from "./components/PageControlled";
 
 // https://www.primefaces.org/primereact/showcase/showcase/demo/data/products-orders-small.json
 // https://www.primefaces.org/primereact/showcase/showcase/demo/data/products-small.json
@@ -15,7 +17,9 @@ function App() {
     <div >
         {false && <Demo1 />}
         {false && <Template />}
-        {true && <ColGroup />}
+        {false && <ColGroup />}
+        {false && <Paginator />}
+        {true && <PageControlled />}
     </div>
   );
 }
