@@ -9,19 +9,14 @@ function LazyLoading() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [first, setFirst] = useState(0);
-    const [rows, setRows] = useState(10);
+    const [rows, setRows] = useState(4);
     const [totalRecords, setTotalRecords] = useState(0);
     const [dataSource, setDataSource] = useState([]);
 
-    // useEffect((() => {
-    //     productService = new ProductService();
-    //     productService.getProducts().then(data => {
-    //         setDataSource(data);
-    //         setTotalRecords(data.length);
-    //         setProducts(datasource.slice(0, rows));
-    //         setLoading(false);
-    //     });
-    // }, []);
+    const [sortField, setSortField] = useState('');
+    const [sortOrder, setSortOrder] = useState(null);
+
+
     useEffect(() => {
         const productService = new ProductService();
         productService.getProducts()
@@ -41,10 +36,24 @@ function LazyLoading() {
             const startIndex = event.first;
             const endIndex = event.first + rows;
 
-            setFirst(startIndex);
-            setProducts(dataSource.slice(startIndex, endIndex));
+            // setFirst(startIndex);
+            // setProducts(dataSource.slice(startIndex, endIndex));
+            getData(startIndex,endIndex);
             setLoading(false);
         }, 250);
+    }
+
+    const getData = (start, end) => {
+        setFirst(start)
+        setProducts(dataSource.slice(start,end));
+    }
+
+    const onSort = (e) => {
+        setSortField(e.sortField);
+        setSortOrder(e.sortOrder);
+        const start = 0;
+        const end = rows;
+        getData(start,end);
     }
 
     return (
@@ -59,11 +68,14 @@ function LazyLoading() {
                 first={first} 
                 onPage={onPage} 
                 loading={loading}
+                sortField={sortField} 
+                sortOrder={sortOrder} 
+                onSort={onSort}
             >
-                <Column field="code" header="Code"></Column>
-                <Column field="name" header="Name"></Column>
-                <Column field="category" header="Category"></Column>
-                <Column field="quantity" header="Quantity"></Column>
+                <Column field="code" header="Code" sortable></Column>
+                <Column field="name" header="Name" sortable></Column>
+                <Column field="category" header="Category" sortable></Column>
+                <Column field="quantity" header="Quantity" sortable></Column>
             </DataTable>
         </div>
     )
