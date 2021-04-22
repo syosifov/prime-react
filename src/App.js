@@ -3,6 +3,7 @@ import Template from "./components/Template";
 import ColGroup from "./components/ColGroup";
 import Paginator from "./components/Paginator";
 import PageControlled from "./components/PageControlled";
+import LazyLoading from "./components/LazyLoading";
 
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -29,7 +30,8 @@ function App() {
             {false && <Template />}
             {false && <ColGroup />}
             {false && <Paginator />}
-            {true && <PageControlled />}
+            {false && <PageControlled />}
+            {true && <LazyLoading />}
         </div>
     );
 }
