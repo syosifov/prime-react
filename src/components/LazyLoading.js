@@ -14,7 +14,7 @@ function LazyLoading() {
     const [dataSource, setDataSource] = useState([]);
 
     const [sortField, setSortField] = useState('');
-    const [sortOrder, setSortOrder] = useState(null);
+    const [sortOrder, setSortOrder] = useState(1);
 
 
     useEffect(() => {
@@ -23,10 +23,18 @@ function LazyLoading() {
             .then(data => {
                 setDataSource(data);
                 setTotalRecords(data.length);
-                setProducts(dataSource.slice(0, rows));
+                setProducts(data.slice(0, rows));
                 setLoading(false);
             });
     }, []);
+
+    useEffect(()=>{
+        dataSource.sort(compare);
+        const start = 0;
+        const end = rows;
+        getData(start, end);
+    },[sortField, sortOrder]);
+    
 
     const onPage = (event) => {
         setLoading(true);
@@ -38,38 +46,55 @@ function LazyLoading() {
 
             // setFirst(startIndex);
             // setProducts(dataSource.slice(startIndex, endIndex));
-            getData(startIndex,endIndex);
+            getData(startIndex, endIndex);
             setLoading(false);
         }, 250);
     }
 
     const getData = (start, end) => {
         setFirst(start)
-        setProducts(dataSource.slice(start,end));
+        setProducts(dataSource.slice(start, end));
     }
 
     const onSort = (e) => {
         setSortField(e.sortField);
         setSortOrder(e.sortOrder);
-        const start = 0;
-        const end = rows;
-        getData(start,end);
+    }
+
+    const cString = (s, a, b) => {
+        const r = a[s] < b[s]? -1: 1;
+        return sortOrder * r;
+    }
+
+    const cNumb = (s, a, b) => {
+        return sortOrder * (a[s]-b[s]);
+    }
+    const compare = (a, b) => {
+        switch (sortField) {
+            case 'code':
+            case 'name':
+            case 'category':
+                return cString(sortField, a, b);
+            case 'quantity':
+                return cNumb(sortField, a, b);
+            default: return 0;
+        }
     }
 
     return (
         <div>
             <h3>Lazy loading</h3>
-            <DataTable 
-                value={products} 
-                paginator 
-                rows={rows} 
+            <DataTable
+                value={products}
+                paginator
+                rows={rows}
                 totalRecords={totalRecords}
-                lazy 
-                first={first} 
-                onPage={onPage} 
+                lazy
+                first={first}
+                onPage={onPage}
                 loading={loading}
-                sortField={sortField} 
-                sortOrder={sortOrder} 
+                sortField={sortField}
+                sortOrder={sortOrder}
                 onSort={onSort}
             >
                 <Column field="code" header="Code" sortable></Column>
